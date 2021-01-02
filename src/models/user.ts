@@ -20,7 +20,7 @@ export class User implements UserType {
   }
 }
 
-export const messageConverter: firebase.firestore.FirestoreDataConverter<UserType> = {
+export const userConverter: firebase.firestore.FirestoreDataConverter<UserType> = {
   toFirestore: (user: UserType): firebase.firestore.DocumentData => {
     return {
       createdAt: user.createdAt ?? new Date(),

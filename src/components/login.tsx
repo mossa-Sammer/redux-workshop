@@ -9,6 +9,10 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // firebase call
+    // handle errors
+    // filter
+    // dipatch
   };
 
   return (

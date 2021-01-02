@@ -37,7 +37,7 @@ export class Todo implements TodoType {
   }
 }
 
-export const messageConverter: firebase.firestore.FirestoreDataConverter<TodoType> = {
+export const todoConverter: firebase.firestore.FirestoreDataConverter<TodoType> = {
   toFirestore: (todo: TodoType): firebase.firestore.DocumentData => {
     return {
       createdAt: todo.createdAt ?? new Date(),

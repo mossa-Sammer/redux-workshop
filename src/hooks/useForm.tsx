@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useForm = (initValues: Record<string, string>) => {
-  const [form, setForm] = useState({ ...initValues });
+  const [form, setForm] = useState(initValues);
   return {
     form,
     resetForm: () => {
@@ -15,7 +15,7 @@ const useForm = (initValues: Record<string, string>) => {
       target: { name, value },
     }: React.ChangeEvent<HTMLInputElement>) => {
       setForm({
-        ...initValues,
+        ...form,
         [name]: value,
       });
     },

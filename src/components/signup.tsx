@@ -9,12 +9,22 @@ const Signup = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    resetForm();
+    // firebase call
+    // handle errors
+    // filter
+    // dispatch
   };
 
   return (
     <div>
       <h1>Signup here</h1>
+      <p
+        style={{
+          color: 'red',
+        }}
+      >
+        error
+      </p>
       <form onSubmit={handleSubmit}>
         <input
           name="email"
