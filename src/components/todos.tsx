@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useForm from '../hooks/useForm';
 import TodoItem from './todoItem';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodoThunk, getTodosThunk } from '../store/todosSlice';
+import { RootState } from '../store/rootReducer';
 const Todos = () => {
+  const dispatch = useDispatch();
+  const todosArr = useSelector((state: RootState) => state.todos.todos);
   const { form, resetForm, setForm } = useForm({
     description: '',
   });
 
+  useEffect(() => {
+    dispatch(getTodosThunk());
+  }, [dispatch]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(
+      addTodoThunk({
+        description: form.description,
+      }),
+    );
+    resetForm();
     // firebase call
     // handle errors
     // filter
     // dipatch
-    resetForm();
   };
 
   return (
@@ -34,16 +47,10 @@ const Todos = () => {
         <button type="submit">+ Add Todo</button>
       </form>
       <div className="todos-wrapper">
-        <TodoItem>
-          Hello there my todo is added now Hello there my todo is added now
-          Hello there my todo is added now Hello there my todo is added now
-          Hello there my todo is added now
-        </TodoItem>
-        <TodoItem>Hello there my todo is added now</TodoItem>
-        <TodoItem>Hello there my todo is added now</TodoItem>
-        <TodoItem>Hello there my todo is added now</TodoItem>
-        <TodoItem>Hello there my todo is added now</TodoItem>
-        <TodoItem>Hello there my todo is added now</TodoItem>
+        {todosArr &&
+          todosArr.map(todo => (
+            <TodoItem id={todo.id}>{todo.description}</TodoItem>
+          ))}
       </div>
     </div>
   );
