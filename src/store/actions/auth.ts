@@ -110,3 +110,51 @@ export const signupThunk = ({
 // loginThunk
 // logoutThunk
 // verfiyAuthThunk
+
+export const LoginThunk = ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): AppThunk => {
+  return async dispatch => {
+    try {
+      dispatch(loginRequest());
+
+      const { user } = await firebaseUtil.signIn(email, password);
+      if (!user) dispatch(loginFail('somethng went wrong'));
+    } catch (e) {
+      const err = handleAuthErrs(e.code);
+      dispatch(loginFail(err));
+    }
+  };
+};
+
+export const logoutThunk = (): AppThunk => {
+  return async dispatch => {
+    await firebaseUtil.auth.signOut();
+  };
+};
+
+export const verfiyAuthThunk = (): AppThunk => {
+  return async dispatch => {
+    firebaseUtil.auth.onAuthStateChanged(async user => {
+      if (user) {
+        const userRef = await firebaseUtil.firestore
+          .collection('users')
+          .doc(user.uid)
+          .get();
+        const data = userRef.data();
+        if (data) {
+          dispatch(
+            loginSuccess({
+              id: userRef.id,
+              email: data.email,
+            }),
+          );
+        } else dispatch(logoutUser());
+      } else dispatch(logoutUser());
+    });
+  };
+};

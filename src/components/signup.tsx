@@ -1,7 +1,12 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import useForm from '../hooks/useForm';
+import { signupThunk } from '../store/actions/auth';
+import { RootState } from '../store/rootReducer';
 
 const Signup = () => {
+  const dispacth = useDispatch();
+  const error = useSelector((state: RootState) => state.auth.error);
   const { form, setForm, resetForm } = useForm({
     email: '',
     password: '',
@@ -9,6 +14,8 @@ const Signup = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispacth(signupThunk({ email: form.email, password: form.password }));
+    resetForm();
     // firebase call
     // handle errors
     // filter
@@ -23,7 +30,7 @@ const Signup = () => {
           color: 'red',
         }}
       >
-        error
+        {error}
       </p>
       <form onSubmit={handleSubmit}>
         <input

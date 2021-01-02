@@ -6,6 +6,7 @@ import { RouteProps, Redirect, Route } from 'react-router-dom';
 import { RootState } from '../../store/rootReducer';
 
 const NoAuthRoute: React.FC<RouteProps> = ({ component, ...rest }) => {
+  console.log('hello there');
   const userId = useSelector((state: RootState) => state.auth.id);
   if (userId) {
     return <Redirect to="/" />;
